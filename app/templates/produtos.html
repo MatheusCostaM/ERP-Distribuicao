@@ -1,0 +1,41 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+<form class="row g-3" action='/registrar' method="post">
+    <div class="col-md-6">
+
+        {% for info in infos: %}
+
+        <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label">{{ info.name }}</label>
+        </div>
+        <div class="col-auto">
+            <input type="{{ info.type }}" id=" inputPassword6" class="form-control" name="{{ info.name }}"
+                aria-describedby="passwordHelpInline">
+        </div>
+        <div class="col-auto">
+            <span id="passwordHelpInline" class="form-text">
+                Must be 8-20 characters long.
+            </span>
+        </div>
+
+        {% endfor %}
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Registrar Produto</button>
+        </div>
+
+        {% for item in listproduct: %}
+
+        <ul class="list-group">
+            <li class="list-group-item">{{ item.product_name }}</li>
+            <li class="list-group-item">{{ item.product_price }}</li>
+            <li class="list-group-item">{{ item.product_type }}</li>
+        </ul>
+
+        {% endfor %}
+
+    </div>
+
+</form>
+{% endblock %}
