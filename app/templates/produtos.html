@@ -1,22 +1,17 @@
 {% extends "template.html" %}
 {% block conteudo %}
 
-<form class="row g-3" action='/registrar' method="post">
-    <div class="col-md-6">
+<div class="container">
+    <form class=" row g-1 d-flex justify-content-center align-items-center m-2 " action='/registrar' method="post">
 
-        {% for info in infos: %}
+        <!-- vai passar pelas infos do tipo de obj da pagina -->
+        {% for info in infos %}
 
-        <div class="col-auto">
-            <label for="inputPassword6" class="col-form-label">{{ info.name }}</label>
-        </div>
-        <div class="col-auto">
-            <input type="{{ info.type }}" id=" inputPassword6" class="form-control" name="{{ info.name }}"
-                aria-describedby="passwordHelpInline">
-        </div>
-        <div class="col-auto">
-            <span id="passwordHelpInline" class="form-text">
-                Must be 8-20 characters long.
-            </span>
+        <div class="form-floating col-auto">
+            <input type="{{ info.type }}" id="input{{ info.name }}" placeholder="name@example.com" class="form-control"
+                name="{{ info.name }}" aria-describedby="passwordHelpInline">
+            <label for="input{{ info.name }}">{{ info.name }}</label>
+            <input type="hidden" name="obj" value="{{info.obj}}" />
         </div>
 
         {% endfor %}
@@ -25,17 +20,42 @@
             <button type="submit" class="btn btn-primary">Registrar Produto</button>
         </div>
 
-        {% for item in listproduct: %}
+</div>
 
-        <ul class="list-group">
-            <li class="list-group-item">{{ item.product_name }}</li>
-            <li class="list-group-item">{{ item.product_price }}</li>
-            <li class="list-group-item">{{ item.product_type }}</li>
-        </ul>
+</form>
+
+<ul class="list-group w-100 mb-2 list-unstyled">
+
+    <!-- vai passar por cada item da lista e criar uma ul -->
+    {% for item in list: %}
+
+    <ul class="list-group list-group-horizontal d-flex justify-content-center mb-2 w-100">
+
+        <!-- vai testar cada um desses nomes de atributos -->
+        {% for attr in ['name', 'price', 'type', 'value', 'date', 'quantity', 'product'] %}
+
+        <!-- se o nome do item.obj + _ + o nome do attr testado existir no objeto ele cria um item da ul -->
+        {% if getattr(item, item.obj + '_' + attr, None) %}
+
+        <li class="list-group-item">{{ getattr(item, item.obj + '_' + attr) }}</li>
+
+        {% endif %}
 
         {% endfor %}
 
-    </div>
+        {% set name = "_name" %}
 
-</form>
+        <li class="list-group-item"
+            onclick="window.location.href='/deletar/{{ item.obj }}/{{ getattr(item, item.obj ~ name) }}'">
+            X
+        </li>
+
+    </ul>
+
+    {% endfor %}
+
+</ul>
+</div>
+
+
 {% endblock %}

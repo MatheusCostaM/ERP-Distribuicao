@@ -4,6 +4,7 @@ class Product:
         self.product_name = product_name
         self.product_price = product_price
         self.product_type = product_type
+        self.obj = "product"
 
     def get(self) -> dict:
         return {

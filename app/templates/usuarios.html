@@ -1,0 +1,50 @@
+{% extends "template.html" %}
+{% block conteudo %}
+
+
+
+<form class="row g-3" action='/registraruser' method="post">
+    <div class="col-md-6">
+
+        {% for info in infos: %}
+
+        <div class="col-auto">
+            <label for="inputPassword6" class="col-form-label">{{ info.name }}</label>
+        </div>
+        <div class="col-auto">
+            <input type="{{ info.type }}" id=" inputPassword6" class="form-control" name="{{ info.name }}"
+                aria-describedby="passwordHelpInline">
+        </div>
+        <div class="col-auto">
+            <span id="passwordHelpInline" class="form-text">
+                Must be 8-20 characters long.
+            </span>
+        </div>
+
+        {% endfor %}
+
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Registrar Produto</button>
+        </div>
+
+    </div>
+
+</form>
+
+<ul class="list-group">
+
+    {% for item in list: %}
+
+    <ul class="list-group list-group-horizontal">
+        <li class="list-group-item">{{ item.user_name }}</li>
+        <li class="list-group-item">{{ item.user_type }}</li>
+        <li class="list-group-item" onclick="window.location.href='/deletarusuario/{{ item.user_name }}'">
+            X</li>
+    </ul>
+
+    {% endfor %}
+
+</ul>
+
+
+{% endblock %}

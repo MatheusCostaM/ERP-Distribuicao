@@ -3,6 +3,7 @@ class User:
         self.user_id = user_id
         self.user_name = user_name
         self.user_type = user_type
+        self.obj = "user"
 
     def get(self) -> dict:
         return {

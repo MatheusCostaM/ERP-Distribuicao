@@ -5,6 +5,7 @@ class Purchase:
         self.purchase_date = purchase_date
         self.purchase_value = purchase_value
         self.product_id = product_id
+        self.obj = 'purchase'
 
     def get(self) -> dict:
         return {
