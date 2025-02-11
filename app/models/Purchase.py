@@ -1,29 +1,19 @@
-class Purchase:
-    def __init__(self, purchase_id: int, purchase_quantity: int, purchase_date: str, purchase_value: float, product_id: int):
-        self.purchase_id = purchase_id
-        self.purchase_quantity = purchase_quantity
-        self.purchase_date = purchase_date
-        self.purchase_value = purchase_value
-        self.product_id = product_id
-        self.obj = 'purchase'
+from sqlalchemy import Column, Integer, Numeric, create_engine, ForeignKey
+from sqlalchemy.orm import declarative_base
 
-    def get(self) -> dict:
-        return {
-            "id": self.purchase_id,
-            "quantity": self.purchase_quantity,
-            "date": self.purchase_date,
-            "value": self.purchase_value,
-            "product": self.product_id
-        }
+engine = create_engine('sqlite:///database/erp.db')
 
-    def set_quantity(self, quantity: int):
-        self.purchase_quantity = quantity
+Base = declarative_base
 
-    def set_date(self, date: str):
-        self.purchase_date = date
 
-    def set_value(self, value: float):
-        self.purchase_value = value
+class Purchase(Base):
+    __tablename__ = 'purchases'
 
-    def set_product(self, product_id: int):
-        self.product_id = product_id
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    quantity = Column(Integer, nullable=False)
+    value = Column(Numeric(10, 2), nullable=False)
+    order_id = Column(Integer, ForeignKey('orders.id'), nullable=False)
+    product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
+
+
+Base.metadata.create_all(engine)

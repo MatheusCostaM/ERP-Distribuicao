@@ -1,33 +1,19 @@
-class Sales:
-    def __init__(self, sales_id: int, sales_quantity: int, sales_date: str, user_id: int, product_id: int, client_id: int):
-        self.sales_id = sales_id
-        self.sales_quantity = sales_quantity
-        self.sales_date = sales_date
-        self.user_id = user_id
-        self.product_id = product_id
-        self.client_id = client_id
+from sqlalchemy import Column, Integer, Date, create_engine, ForeignKey
+from sqlalchemy.orm import declarative_base
 
-    def get(self) -> dict:
-        return {
-            "id": self.sales_id,
-            "quantity": self.sales_quantity,
-            "date": self.sales_date,
-            "user": self.user_id,
-            "product": self.product_id,
-            "client": self.client_id
-        }
+engine = create_engine('sqlite:///database/erp.db')
 
-    def set_quantity(self, quantity: int):
-        self.sales_quantity = quantity
+Base = declarative_base
 
-    def set_date(self, date: str):
-        self.sales_date = date
 
-    def set_user(self, user: int):
-        self.user_id = user
+class Sale(Base):
+    __tablename__ = 'sales'
 
-    def set_product(self, product: int):
-        self.product_id = product
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    quantity = Column(Integer, nullable=False)
+    date = Column(Date, nullable=False)
+    order_id = Column(Integer, ForeignKey('orders.id'), nullable=False)
+    product_id = Column(Integer, ForeignKey('products.id'), nullable=False)
 
-    def set_client(self, client: int):
-        self.client_id = client
+
+Base.metadata.create_all(engine)

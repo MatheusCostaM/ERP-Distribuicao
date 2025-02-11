@@ -1,15 +1,20 @@
-class Client:
-    def __init__(self, client_id, client_name):
-        self.client_id = client_id
-        self.client_name = client_name
-        self.obj = "client"
+from sqlalchemy import Column, Integer, String, create_engine
+from sqlalchemy.orm import declarative_base
 
-    def get(self) -> dict:
-        return {
-            "id": self.client_id,
-            "name": self.client_name,
+engine = create_engine('sqlite:///database/erp.db')
 
-        }
+Base = declarative_base
 
-    def set_name(self, name: str):
-        self.client_name = name
+
+class Client(Base):
+    __tablename__ = 'clients'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    full_name = Column(String, nullable=False)
+    nickname = Column(String)
+    cpf = Column(Integer, nullable=True)
+    cnpj = Column(Integer, nullable=True)
+    payment_time = Column(Integer, nullable=False)
+
+
+Base.metadata.create_all(engine)

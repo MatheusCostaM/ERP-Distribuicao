@@ -1,24 +1,18 @@
-class Product:
-    def __init__(self, product_id, product_name, product_price, product_type):
-        self.product_id = product_id
-        self.product_name = product_name
-        self.product_price = product_price
-        self.product_type = product_type
-        self.obj = "product"
+from sqlalchemy import Column, Integer, String, Numeric, create_engine
+from sqlalchemy.orm import declarative_base
 
-    def get(self) -> dict:
-        return {
-            "id": self.product_id,
-            "name": self.product_name,
-            "price": self.product_price,
-            "type": self.product_type
-        }
+engine = create_engine('sqlite:///database/erp.db')
 
-    def set_name(self, name: str):
-        self.product_name = name
+Base = declarative_base
 
-    def set_price(self, price: float):
-        self.product_price = price
 
-    def set_type(self, type: str):
-        self.product_type = type
+class Product(Base):
+    __tablename__ = 'products'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String, nullable=False)
+    price = Column(Numeric(10, 2), nullable=False)
+    line = Column(String, nullable=False)
+
+
+Base.metadata.create_all(engine)
